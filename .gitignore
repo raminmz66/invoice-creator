@@ -5,3 +5,4 @@ data/settings.json
 data/state.json
 *.pdf
 .server.pid
+.server.port
