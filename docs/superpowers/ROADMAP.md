@@ -50,8 +50,8 @@ User requests changes → fix → commit → STOP for review again (no push unti
 
 | # | Task | Status | Review |
 |---|------|--------|--------|
-| 1 | Project scaffold | ✅ Done | ⏳ Pending (push after approval) |
-| 2 | Data models | ⬜ Not started | — |
+| 1 | Project scaffold | ✅ Done | ✅ Approved · pushed |
+| 2 | Data models | ✅ Done | ⏳ Pending |
 | 3 | Storage layer | ⬜ Not started | — |
 | 4 | Invoice service | ⬜ Not started | — |
 | 5 | PDF renderer | ⬜ Not started | — |
@@ -66,8 +66,8 @@ User requests changes → fix → commit → STOP for review again (no push unti
 
 ## Current status
 
-**Active task:** None — awaiting review of Task 1  
-**Next action after approval:** `git push origin main` → Task 2 — Data models  
+**Active task:** None — awaiting review of Task 2  
+**Next action after approval:** `git push origin main` → Task 3 — Storage layer  
 **Remote:** `origin` → `git@github.com:raminmz66/invoice-creator.git` (SSH)  
 **Blockers:** None
 
