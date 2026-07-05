@@ -114,6 +114,58 @@ def test_settings_post_saves_and_preserves_history(client, seeded_data):
     assert len(saved_state.history) == 1
 
 
+def test_generate_shows_year_rollover_banner(client, seeded_data):
+    _, state = seeded_data
+    state.year = 2025
+    save_state(state)
+
+    response = client.get("/generate?month=2026-01")
+    assert response.status_code == 200
+    assert "New year detected" in response.text
+    assert 'name="rollover_carried_over"' in response.text
+    assert "disabled" in response.text
+
+
+def test_apply_rollover_resets_vacation(client, seeded_data):
+    settings, state = seeded_data
+    state.year = 2025
+    save_state(state)
+
+    response = client.post(
+        "/generate",
+        data={
+            "month": "2026-01",
+            "action": "apply_rollover",
+            "rollover_reset": "1",
+            "rollover_carried_over": "32",
+        },
+        follow_redirects=False,
+    )
+    assert response.status_code == 303
+    assert response.headers["location"] == "/generate?month=2026-01"
+
+    from app.storage import load_state
+
+    updated = load_state()
+    assert updated is not None
+    assert updated.year == 2026
+    assert updated.vacation.used_this_year == 0
+    assert updated.vacation.carried_over == 32
+
+
+def test_generate_blocks_until_rollover_applied(client, seeded_data):
+    _, state = seeded_data
+    state.year = 2025
+    save_state(state)
+
+    response = client.post(
+        "/generate",
+        data={"month": "2026-01", "action": "download"},
+    )
+    assert response.status_code == 400
+    assert "New year detected" in response.text
+
+
 def test_generate_with_settings_renders_paper_preview(client, seeded_data):
     response = client.get("/generate?month=2026-07")
     assert response.status_code == 200

@@ -80,10 +80,33 @@ def validate_generate(
     if state is None:
         errors.append("State not initialized. Save settings to create initial state.")
         return errors
+    if state.year != form.year:
+        errors.append("New year detected. Apply vacation reset before generating.")
+        return errors
     remaining_before = state.vacation.remaining
     if len(form.off_days) > remaining_before:
         errors.append(f"You have {remaining_before} day(s) remaining but added {len(form.off_days)} off day(s).")
     return errors
+
+
+def apply_year_rollover(
+    state: AppState,
+    settings: Settings,
+    target_year: int,
+    carried_over: int,
+) -> AppState:
+    """Reset vacation tracking when generating in a new calendar year."""
+    used = 0
+    return AppState(
+        last_invoice_number=state.last_invoice_number,
+        vacation=VacationState(
+            used_this_year=used,
+            carried_over=carried_over,
+            remaining=compute_remaining(carried_over, settings.annual_vacation_entitlement, used),
+        ),
+        year=target_year,
+        history=state.history,
+    )
 
 
 def pdf_filename(draft: InvoiceDraft) -> str:

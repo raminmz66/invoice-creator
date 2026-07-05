@@ -233,6 +233,33 @@ button:focus-visible {
   color: var(--ink-muted);
 }
 
+.year-banner-title {
+  margin: 0 0 0.75rem;
+}
+
+.year-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.year-banner-check,
+.year-banner-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.year-banner-field input[type="number"] {
+  width: 4rem;
+  font: inherit;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--field-bg);
+}
+
 .empty-state {
   text-align: center;
   padding: 3rem 2rem;

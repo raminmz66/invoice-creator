@@ -4,6 +4,7 @@ from datetime import date
 
 from app.invoice_service import (
     apply_generation,
+    apply_year_rollover,
     build_draft,
     compute_remaining,
     last_day_of_month,
@@ -40,6 +41,45 @@ def test_build_draft_increments_invoice_number():
     assert draft.invoice_number == 2334975
     assert draft.invoice_date == date(2026, 7, 31)
     assert draft.off_days == [date(2026, 7, 3)]
+
+
+def test_validate_generate_rejects_year_mismatch():
+    settings = Settings(
+        invoice_amount_eur=5000,
+        usdt_wallet="TWallet",
+        from_party=PartyInfo(name="Ramin"),
+        billed_to=PartyInfo(name="Boris"),
+    )
+    state = AppState(
+        last_invoice_number=1,
+        vacation=VacationState(used_this_year=6, carried_over=7, remaining=32),
+        year=2025,
+    )
+    form = GenerateForm(year=2026, month=1, off_days=[])
+    errors = validate_generate(settings, state, form)
+    assert any("new year" in error.lower() for error in errors)
+
+
+def test_apply_year_rollover_resets_used_and_updates_year():
+    settings = Settings(
+        invoice_amount_eur=5000,
+        usdt_wallet="TWallet",
+        from_party=PartyInfo(name="Ramin"),
+        billed_to=PartyInfo(name="Boris"),
+        annual_vacation_entitlement=31,
+    )
+    state = AppState(
+        last_invoice_number=100,
+        vacation=VacationState(used_this_year=6, carried_over=7, remaining=32),
+        year=2025,
+        history=[],
+    )
+    new_state = apply_year_rollover(state, settings, target_year=2026, carried_over=32)
+    assert new_state.year == 2026
+    assert new_state.vacation.used_this_year == 0
+    assert new_state.vacation.carried_over == 32
+    assert new_state.vacation.remaining == compute_remaining(32, 31, 0)
+    assert new_state.last_invoice_number == 100
 
 
 def test_validate_generate_rejects_too_many_off_days():

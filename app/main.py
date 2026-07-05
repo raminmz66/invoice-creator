@@ -12,6 +12,7 @@ from fastapi.templating import Jinja2Templates
 
 from app.invoice_service import (
     apply_generation,
+    apply_year_rollover,
     build_draft,
     compute_remaining,
     pdf_filename,
@@ -181,6 +182,7 @@ def generate_get(request: Request, month: str | None = None) -> HTMLResponse:
     generate_form = GenerateForm(year=year, month=month_num, off_days=[])
     draft = build_draft(settings, state, generate_form)
     show_year_rollover = state.year != year
+    rollover_carried_over = state.vacation.remaining if show_year_rollover else state.vacation.carried_over
 
     return templates.TemplateResponse(
         request,
@@ -195,6 +197,7 @@ def generate_get(request: Request, month: str | None = None) -> HTMLResponse:
             off_days=[],
             errors=[],
             show_year_rollover=show_year_rollover,
+            rollover_carried_over=rollover_carried_over,
             base_used=state.vacation.used_this_year,
             base_remaining=state.vacation.remaining,
             entitlement=settings.annual_vacation_entitlement,
@@ -213,10 +216,52 @@ async def generate_post(request: Request) -> Response:
     off_days = _parse_off_days([str(value) for value in form.getlist("off_days")])
     action = str(form.get("action", "download"))
     generate_form = GenerateForm(year=year, month=month_num, off_days=off_days)
+    show_year_rollover = bool(state and state.year != year)
+    rollover_carried_over = int(
+        form.get("rollover_carried_over", state.vacation.remaining if state and show_year_rollover else 0)
+    )
+
+    if action == "apply_rollover":
+        if not settings or not state or not settings_complete(settings):
+            return templates.TemplateResponse(
+                request,
+                "generate.html",
+                _build_context(
+                    request,
+                    settings_ready=False,
+                    month_value=month_value,
+                    errors=["Settings not configured. Open Settings first."],
+                ),
+                status_code=400,
+            )
+        if not form.get("rollover_reset"):
+            draft = build_draft(settings, state, generate_form)
+            return templates.TemplateResponse(
+                request,
+                "generate.html",
+                _build_context(
+                    request,
+                    settings_ready=True,
+                    settings=settings,
+                    state=state,
+                    month_value=month_value,
+                    draft=draft,
+                    off_days=off_days,
+                    errors=["Confirm reset used days to 0 before applying."],
+                    show_year_rollover=True,
+                    rollover_carried_over=rollover_carried_over,
+                    base_used=state.vacation.used_this_year,
+                    base_remaining=state.vacation.remaining,
+                    entitlement=settings.annual_vacation_entitlement,
+                    carried_over=state.vacation.carried_over,
+                ),
+                status_code=400,
+            )
+        save_state(apply_year_rollover(state, settings, year, rollover_carried_over))
+        return RedirectResponse(url=f"/generate?month={month_value}", status_code=303)
 
     errors = validate_generate(settings, state, generate_form)
     draft = build_draft(settings, state, generate_form) if settings and state else None
-    show_year_rollover = bool(state and state.year != year)
 
     if errors:
         return templates.TemplateResponse(
@@ -232,6 +277,7 @@ async def generate_post(request: Request) -> Response:
                 off_days=off_days,
                 errors=errors,
                 show_year_rollover=show_year_rollover,
+                rollover_carried_over=rollover_carried_over,
                 base_used=state.vacation.used_this_year if state else 0,
                 base_remaining=state.vacation.remaining if state else 0,
                 entitlement=settings.annual_vacation_entitlement if settings else 31,
@@ -258,6 +304,7 @@ async def generate_post(request: Request) -> Response:
                 off_days=off_days,
                 errors=["PDF generation failed. Please try again."],
                 show_year_rollover=show_year_rollover,
+                rollover_carried_over=rollover_carried_over,
                 base_used=state.vacation.used_this_year,
                 base_remaining=state.vacation.remaining,
                 entitlement=settings.annual_vacation_entitlement,

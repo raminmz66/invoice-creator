@@ -17,7 +17,19 @@
 
   {% if show_year_rollover %}
   <div class="year-banner" role="status">
-    New year detected. Confirm vacation reset before generating (Task 7 will add Apply).
+    <p class="year-banner-title"><strong>New year detected.</strong> Confirm vacation reset before generating.</p>
+    <div class="year-banner-actions">
+      <label class="year-banner-check">
+        <input type="checkbox" name="rollover_reset" value="1">
+        Reset used days to 0
+      </label>
+      <label class="year-banner-field">
+        Carried over:
+        <input type="number" min="0" name="rollover_carried_over" value="{{ rollover_carried_over }}">
+        days
+      </label>
+      <button type="submit" name="action" value="apply_rollover" class="btn btn-outline btn-small">Apply</button>
+    </div>
   </div>
   {% endif %}
 
@@ -91,8 +103,8 @@
   </div>
 
   <div class="action-row">
-    <button type="submit" name="action" value="preview" class="btn btn-outline" formtarget="_blank">Preview PDF</button>
-    <button type="submit" name="action" value="download" class="btn btn-primary">Generate &amp; Download</button>
+    <button type="submit" name="action" value="preview" class="btn btn-outline" formtarget="_blank"{% if show_year_rollover %} disabled{% endif %}>Preview PDF</button>
+    <button type="submit" name="action" value="download" class="btn btn-primary"{% if show_year_rollover %} disabled{% endif %}>Generate &amp; Download</button>
   </div>
 </form>
 {% endif %}
