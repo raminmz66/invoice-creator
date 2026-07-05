@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Invoice Creator
+Comment=Generate monthly PDF invoices
+Exec=@INSTALL_ROOT@/scripts/launch.sh
+Icon=@INSTALL_ROOT@/assets/icon.png
+Type=Application
+Categories=Office;Finance;
+Terminal=false
+StartupNotify=true
