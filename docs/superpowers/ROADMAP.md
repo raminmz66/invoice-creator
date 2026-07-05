@@ -1,7 +1,7 @@
 # Invoice Creator — Roadmap
 
 **Last updated:** 2026-07-05  
-**Remote:** `https://github.com/raminmz66/invoice-creator.git` (private)  
+**Remote:** `git@github.com:raminmz66/invoice-creator.git` (private) · tracks `origin/main`  
 **Resume here:** See [Current status](#current-status) and [Session handoff](#session-handoff)
 
 ---
@@ -68,8 +68,10 @@ User requests changes → fix → commit → STOP for review again (no push unti
 
 **Active task:** None — awaiting review of Task 1  
 **Next action after approval:** `git push origin main` → Task 2 — Data models  
-**Remote:** `origin` → `https://github.com/raminmz66/invoice-creator.git`  
+**Remote:** `origin` → `git@github.com:raminmz66/invoice-creator.git` (SSH)  
 **Blockers:** None
+
+**Bootstrap push (2026-07-05):** Initial commits pushed during remote setup (`fee4020`, `8592ad5`). From Task 2 onward, push only after user approval.
 
 ---
 
