@@ -53,8 +53,8 @@ User requests changes → fix → commit → STOP for review again (no push unti
 | # | Task | Status | Review |
 |---|------|--------|--------|
 | 1 | Project scaffold | ✅ Done | ✅ Approved · pushed |
-| 2 | Data models | ✅ Done | ⏳ Pending |
-| 3 | Storage layer | ⬜ Not started | — |
+| 2 | Data models | ✅ Done | ✅ Approved · pushed |
+| 3 | Storage layer | ✅ Done | ⏳ Pending |
 | 4 | Invoice service | ⬜ Not started | — |
 | 5 | PDF renderer | ⬜ Not started | — |
 | 6 | FastAPI + web UI | ⬜ Not started | — |
@@ -68,8 +68,8 @@ User requests changes → fix → commit → STOP for review again (no push unti
 
 ## Current status
 
-**Active task:** None — awaiting review of Task 2  
-**Next action after approval:** `git push origin main` → Task 3 — Storage layer  
+**Active task:** None — awaiting review of Task 3  
+**Next action after approval:** `git push origin main` → Task 4 — Invoice service  
 **Remote:** `origin` → `git@github.com:raminmz66/invoice-creator.git` (SSH)  
 **Blockers:** None
 
@@ -95,7 +95,12 @@ User requests changes → fix → commit → STOP for review again (no push unti
 - **Notes:** Reviewed with `python-code-style` + `fastapi-python` skills. Added ConfigDict, Field constraints/descriptions, module docstrings, ruff config, `tests/test_models.py` (5 tests).
 
 ### Task 3: Storage layer
-- **Notes:** —
+- **Plan section:** `2026-07-04-invoice-creator.md` → Task 3
+- **Deliverables:** `app/storage.py`, `tests/test_storage.py`
+- **Verified:** 4 storage tests pass; settings JSON uses `"from"` alias
+- **Completed:** 2026-07-05
+- **Commit:** local, not pushed
+- **Notes:** Loads/saves `data/settings.json` and `data/state.json`
 
 ### Task 4: Invoice service
 - **Notes:** —
