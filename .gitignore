@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+.venv/
+data/settings.json
+data/state.json
+*.pdf
+.server.pid
