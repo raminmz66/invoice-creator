@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="static/invoice-document.css">
+</head>
+<body>
+  <div class="invoice-document">
+    <div class="invoice-no">No. {{ draft.invoice_number }}</div>
+    <h1 class="invoice-title">Invoice</h1>
+    <div class="invoice-date">Date: {{ draft.invoice_date | format_date }}</div>
+
+    <div class="parties">
+      <div class="party">
+        <div class="party-label">Billed to:</div>
+        <div class="party-line">{{ draft.billed_to.name }}</div>
+        <div class="party-line">{{ draft.billed_to.company }}</div>
+        <div class="party-line">{{ draft.billed_to.location }}</div>
+      </div>
+      <div class="party">
+        <div class="party-label">From:</div>
+        <div class="party-line">{{ draft.from_party.name }}</div>
+        <div class="party-line">{{ draft.from_party.email }}</div>
+        <div class="party-line">{{ draft.from_party.location }}</div>
+      </div>
+    </div>
+
+    <table class="items">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Professional services — {{ draft.month_label }}</td>
+          <td class="amount">€{{ draft.amount_eur | format_eur }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="wallet">
+      <strong>Wallet ID (USDT TRC20):</strong><br>
+      {{ draft.usdt_wallet }}
+    </div>
+
+    {% if draft.off_days %}
+    <div class="section-title">Off days this month:</div>
+    {% for off_day in draft.off_days %}
+    <div class="off-day">{{ off_day | format_date }}</div>
+    {% endfor %}
+    {% endif %}
+
+    <div class="section-title">Vacations (and Off days):</div>
+    <div class="vacation-line">Total used this year: {{ draft.vacation_used }} days</div>
+    <div class="vacation-line">Carried over last year(s): {{ draft.vacation_carried_over }} days</div>
+    <div class="vacation-line">Remaining: {{ draft.vacation_remaining }} days</div>
+  </div>
+</body>
+</html>

@@ -55,8 +55,8 @@ User requests changes → fix → commit → STOP for review again (no push unti
 | 1 | Project scaffold | ✅ Done | ✅ Approved · pushed |
 | 2 | Data models | ✅ Done | ✅ Approved · pushed |
 | 3 | Storage layer | ✅ Done | ✅ Approved · pushed |
-| 4 | Invoice service | ✅ Done | ⏳ Pending |
-| 5 | PDF renderer | ⬜ Not started | — |
+| 4 | Invoice service | ✅ Done | ✅ Approved · pushed |
+| 5 | PDF renderer | ✅ Done | ⏳ Pending |
 | 6 | FastAPI + web UI | ⬜ Not started | — |
 | 7 | Year rollover | ⬜ Not started | — |
 | 8 | Ubuntu launcher | ⬜ Not started | — |
@@ -68,8 +68,8 @@ User requests changes → fix → commit → STOP for review again (no push unti
 
 ## Current status
 
-**Active task:** None — awaiting review of Task 4  
-**Next action after approval:** `git push origin main` → Task 5 — PDF renderer  
+**Active task:** None — awaiting review of Task 5  
+**Next action after approval:** `git push origin main` → Task 6 — FastAPI + web UI  
 **Remote:** `origin` → `git@github.com:raminmz66/invoice-creator.git` (SSH)  
 **Blockers:** None
 
@@ -112,7 +112,11 @@ User requests changes → fix → commit → STOP for review again (no push unti
 
 ### Task 5: PDF renderer
 - **Specs:** UI spec (tokens, PDF parity) + functional spec (PDF layout)
-- **Notes:** —
+- **Deliverables:** `app/pdf_renderer.py`, `app/templates/invoice_pdf.html`, `static/invoice-document.css`, `tests/test_pdf_renderer.py`
+- **Verified:** 19/19 tests pass; PDF renders valid `%PDF` output
+- **Completed:** 2026-07-05
+- **Commit:** local, not pushed
+- **Notes:** Shared CSS tokens, Cormorant/Source Sans fonts, `format_date`/`format_eur` filters
 
 ### Task 6: FastAPI + web UI
 - **Specs:** UI spec (full) + frontend-design skill

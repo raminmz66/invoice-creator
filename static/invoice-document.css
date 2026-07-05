@@ -1,0 +1,108 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Source+Sans+3:wght@400;500&display=swap");
+
+:root {
+  --paper: #f7f4ee;
+  --ink: #2c2c2c;
+  --ink-muted: #6b6560;
+  --rule: #d4cfc6;
+}
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+body {
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 11pt;
+  color: var(--ink);
+  background: var(--paper);
+  margin: 0;
+}
+
+.invoice-document {
+  box-sizing: border-box;
+  width: 210mm;
+  min-height: 297mm;
+  padding: 2.5cm;
+  background: var(--paper);
+}
+
+.invoice-no {
+  font-size: 10pt;
+  margin-bottom: 0.5em;
+}
+
+.invoice-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 28px;
+  font-weight: 500;
+  margin: 0 0 1em;
+}
+
+.invoice-date {
+  margin-bottom: 1.5em;
+}
+
+.parties {
+  display: table;
+  width: 100%;
+  margin-bottom: 2em;
+}
+
+.party {
+  display: table-cell;
+  width: 50%;
+  vertical-align: top;
+}
+
+.party-label {
+  font-weight: 500;
+  margin-bottom: 0.5em;
+}
+
+.party-line {
+  margin: 0.2em 0;
+}
+
+table.items {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+}
+
+table.items th,
+table.items td {
+  border: 1px solid var(--rule);
+  padding: 8px;
+  text-align: left;
+}
+
+table.items th {
+  font-weight: 500;
+}
+
+table.items td.amount {
+  text-align: right;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 14pt;
+}
+
+.wallet {
+  margin: 1.5em 0;
+}
+
+.section-title {
+  font-weight: 500;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.off-day {
+  margin-left: 1em;
+  color: var(--ink-muted);
+}
+
+.vacation-line {
+  margin: 0.3em 0;
+}
