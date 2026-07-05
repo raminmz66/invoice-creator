@@ -1,0 +1,17 @@
+{
+  "invoice_amount_eur": 5000,
+  "usdt_wallet": "",
+  "from": {
+    "name": "Ramin Maazallahi",
+    "email": "r.mazallahi-ext@initiative-crm.com",
+    "company": "",
+    "location": "Mashad, Iran"
+  },
+  "billed_to": {
+    "name": "Boris Clement",
+    "company": "Initiative solutions",
+    "email": "",
+    "location": "Valreas, France"
+  },
+  "annual_vacation_entitlement": 31
+}
