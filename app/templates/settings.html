@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Settings — Invoice Creator{% endblock %}
+
+{% block nav %}
+<a href="/generate">← Generate</a>
+{% endblock %}
+
+{% block content %}
+<section class="settings-layout">
+  <form class="settings-card card-narrow" method="post" action="/settings">
+    <h1 class="settings-title">Invoice details</h1>
+
+    {% if errors %}
+    <div class="inline-errors" role="alert">
+      {% for error in errors %}
+      <p>{{ error }}</p>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <fieldset class="settings-section">
+      <legend>Payment</legend>
+      <label class="field">
+        <span>Monthly amount (EUR)</span>
+        <div class="input-prefix">
+          <span>€</span>
+          <input type="number" step="0.01" min="0" name="invoice_amount_eur" required
+                 value="{{ settings.invoice_amount_eur if settings else '' }}">
+        </div>
+      </label>
+      <label class="field">
+        <span>USDT wallet (TRC20)</span>
+        <input type="text" name="usdt_wallet" class="mono" required
+               value="{{ settings.usdt_wallet if settings else '' }}">
+      </label>
+    </fieldset>
+
+    <fieldset class="settings-section">
+      <legend>Your details (From)</legend>
+      <label class="field">
+        <span>Name</span>
+        <input type="text" name="from_name" required
+               value="{{ settings.from_party.name if settings else '' }}">
+      </label>
+      <label class="field">
+        <span>Email</span>
+        <input type="email" name="from_email" required
+               value="{{ settings.from_party.email if settings else '' }}">
+      </label>
+      <label class="field">
+        <span>Location</span>
+        <input type="text" name="from_location" required
+               value="{{ settings.from_party.location if settings else '' }}">
+      </label>
+    </fieldset>
+
+    <fieldset class="settings-section">
+      <legend>Client (Billed to)</legend>
+      <label class="field">
+        <span>Name</span>
+        <input type="text" name="billed_to_name" required
+               value="{{ settings.billed_to.name if settings else '' }}">
+      </label>
+      <label class="field">
+        <span>Company</span>
+        <input type="text" name="billed_to_company" required
+               value="{{ settings.billed_to.company if settings else '' }}">
+      </label>
+      <label class="field">
+        <span>Location</span>
+        <input type="text" name="billed_to_location" required
+               value="{{ settings.billed_to.location if settings else '' }}">
+      </label>
+    </fieldset>
+
+    <fieldset class="settings-section">
+      <legend>Vacation &amp; invoice tracking</legend>
+      <label class="field">
+        <span>Annual entitlement (days)</span>
+        <input type="number" min="0" id="annual_vacation_entitlement" name="annual_vacation_entitlement" required
+               value="{{ settings.annual_vacation_entitlement if settings else 31 }}">
+      </label>
+      <label class="field">
+        <span>Carried over days</span>
+        <input type="number" min="0" id="carried_over" name="carried_over" required
+               value="{{ state.vacation.carried_over if state else 0 }}">
+      </label>
+      <label class="field">
+        <span>Used this year (days)</span>
+        <input type="number" min="0" id="used_this_year" name="used_this_year" required
+               value="{{ state.vacation.used_this_year if state else 0 }}">
+      </label>
+      <label class="field">
+        <span>Last invoice number</span>
+        <input type="number" min="0" name="last_invoice_number" required
+               value="{{ state.last_invoice_number if state else 0 }}">
+      </label>
+      <p class="computed-field">Remaining: <span id="remaining-display">{{ remaining if remaining is not none else 0 }}</span> days</p>
+    </fieldset>
+
+    <div class="settings-actions">
+      <button type="submit" class="btn btn-primary">Save settings</button>
+    </div>
+  </form>
+
+  {% if saved %}
+  <div id="toast" class="toast" role="status">Settings saved</div>
+  {% endif %}
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/settings.js"></script>
+{% endblock %}
