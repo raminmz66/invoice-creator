@@ -41,6 +41,8 @@ User requests changes → fix → commit → STOP for review again (no push unti
 | **Functional spec** | `docs/superpowers/specs/2026-07-04-invoice-creator-design.md` | Behavior, data, errors |
 | **UI spec** | `docs/superpowers/specs/2026-07-04-invoice-creator-ui-design.md` | Visual design, layouts |
 | **UI skill** | `.agents/skills/frontend-design/SKILL.md` | Polish during Tasks 5–6 |
+| **Python style** | `.agents/skills/python-code-style/SKILL.md` | Linting, types, docstrings |
+| **FastAPI** | `.agents/skills/fastapi-python/SKILL.md` | Pydantic models, routes (Tasks 3–6) |
 
 **Conflict rule:** Functional spec → behavior. UI spec → appearance. Plan → build order.
 
@@ -82,10 +84,15 @@ User requests changes → fix → commit → STOP for review again (no push unti
 - **Deliverables:** `pyproject.toml`, `.gitignore`, `app/__init__.py`, `data/.gitkeep`, `tests/__init__.py`, `.venv` via `uv sync`
 - **Verified:** `uv sync --extra dev` OK (44 packages); `uv run pytest --co -q` → no tests yet (expected)
 - **Completed:** 2026-07-05
-- **Notes:** Added `[tool.hatch.build.targets.wheel]` so hatchling packages `app` correctly. Committed: `fee4020` on `main`.
+- **Notes:** Added `[tool.hatch.build.targets.wheel]` so hatchling packages `app` correctly. Pushed: `fee4020`–`456cdee`.
 
 ### Task 2: Data models
-- **Notes:** —
+- **Plan section:** `2026-07-04-invoice-creator.md` → Task 2
+- **Deliverables:** `app/models.py`, `data/settings.example.json`, `data/state.example.json`
+- **Verified:** Example JSON parses into `Settings` and `AppState` via Pydantic
+- **Completed:** 2026-07-05
+- **Commit:** `9ca9265` → revised in follow-up commits (local, not pushed)
+- **Notes:** Reviewed with `python-code-style` + `fastapi-python` skills. Added ConfigDict, Field constraints/descriptions, module docstrings, ruff config, `tests/test_models.py` (5 tests).
 
 ### Task 3: Storage layer
 - **Notes:** —
