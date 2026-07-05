@@ -54,8 +54,8 @@ User requests changes → fix → commit → STOP for review again (no push unti
 |---|------|--------|--------|
 | 1 | Project scaffold | ✅ Done | ✅ Approved · pushed |
 | 2 | Data models | ✅ Done | ✅ Approved · pushed |
-| 3 | Storage layer | ✅ Done | ⏳ Pending |
-| 4 | Invoice service | ⬜ Not started | — |
+| 3 | Storage layer | ✅ Done | ✅ Approved · pushed |
+| 4 | Invoice service | ✅ Done | ⏳ Pending |
 | 5 | PDF renderer | ⬜ Not started | — |
 | 6 | FastAPI + web UI | ⬜ Not started | — |
 | 7 | Year rollover | ⬜ Not started | — |
@@ -68,8 +68,8 @@ User requests changes → fix → commit → STOP for review again (no push unti
 
 ## Current status
 
-**Active task:** None — awaiting review of Task 3  
-**Next action after approval:** `git push origin main` → Task 4 — Invoice service  
+**Active task:** None — awaiting review of Task 4  
+**Next action after approval:** `git push origin main` → Task 5 — PDF renderer  
 **Remote:** `origin` → `git@github.com:raminmz66/invoice-creator.git` (SSH)  
 **Blockers:** None
 
@@ -103,7 +103,12 @@ User requests changes → fix → commit → STOP for review again (no push unti
 - **Notes:** Loads/saves `data/settings.json` and `data/state.json`
 
 ### Task 4: Invoice service
-- **Notes:** —
+- **Plan section:** `2026-07-04-invoice-creator.md` → Task 4
+- **Deliverables:** `app/invoice_service.py`, `tests/test_invoice_service.py`
+- **Verified:** 16/16 tests pass (7 invoice service tests)
+- **Completed:** 2026-07-05
+- **Commit:** local, not pushed
+- **Notes:** Vacation math, draft building, validation, state updates, PDF filename
 
 ### Task 5: PDF renderer
 - **Specs:** UI spec (tokens, PDF parity) + functional spec (PDF layout)
