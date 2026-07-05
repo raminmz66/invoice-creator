@@ -1,8 +1,34 @@
 # Invoice Creator — Roadmap
 
 **Last updated:** 2026-07-05  
-**Workflow:** One task at a time → implement → **stop for user review** → next task  
+**Remote:** `https://github.com/raminmz66/invoice-creator.git` (private)  
 **Resume here:** See [Current status](#current-status) and [Session handoff](#session-handoff)
+
+---
+
+## Delivery workflow
+
+Each task follows this cycle — **do not skip steps**:
+
+```
+Implement task → commit locally → STOP for user review
+       ↓
+User approves → git push origin main → update roadmap → start next task
+       ↓
+User requests changes → fix → commit → STOP for review again (no push until approved)
+```
+
+| Step | Who | Action |
+|------|-----|--------|
+| 1 | Agent | Implement task per plan |
+| 2 | Agent | Commit locally with clear message |
+| 3 | Agent | Update this roadmap; **stop** and notify user |
+| 4 | User | Review diff / test locally |
+| 5 | User | Reply **Approved** (or request changes) |
+| 6 | Agent | `git push origin main` |
+| 7 | Agent | Start next task |
+
+**Push rule:** Never push to remote until the user explicitly approves the task.
 
 ---
 
@@ -24,7 +50,7 @@
 
 | # | Task | Status | Review |
 |---|------|--------|--------|
-| 1 | Project scaffold | ✅ Done | ⏳ Pending |
+| 1 | Project scaffold | ✅ Done | ⏳ Pending (push after approval) |
 | 2 | Data models | ⬜ Not started | — |
 | 3 | Storage layer | ⬜ Not started | — |
 | 4 | Invoice service | ⬜ Not started | — |
@@ -41,7 +67,8 @@
 ## Current status
 
 **Active task:** None — awaiting review of Task 1  
-**Next action after approval:** Task 2 — Data models  
+**Next action after approval:** `git push origin main` → Task 2 — Data models  
+**Remote:** `origin` → `https://github.com/raminmz66/invoice-creator.git`  
 **Blockers:** None
 
 ---
@@ -53,7 +80,7 @@
 - **Deliverables:** `pyproject.toml`, `.gitignore`, `app/__init__.py`, `data/.gitkeep`, `tests/__init__.py`, `.venv` via `uv sync`
 - **Verified:** `uv sync --extra dev` OK (44 packages); `uv run pytest --co -q` → no tests yet (expected)
 - **Completed:** 2026-07-05
-- **Notes:** Added `[tool.hatch.build.targets.wheel]` so hatchling packages `app` correctly. Commit skipped — user to request when ready.
+- **Notes:** Added `[tool.hatch.build.targets.wheel]` so hatchling packages `app` correctly. Committed: `fee4020` on `main`.
 
 ### Task 2: Data models
 - **Notes:** —
@@ -87,7 +114,7 @@
 
 **For a new chat/session**, tell the agent:
 
-> Continue Invoice Creator from `docs/superpowers/ROADMAP.md`. Check current status, complete the active task if unfinished, or start the next task only if the previous one is ✅ and user-approved.
+> Continue Invoice Creator from `docs/superpowers/ROADMAP.md`. Follow the [Delivery workflow](#delivery-workflow): push only after user approval. Check current status before starting the next task.
 
 **Dev commands** (after Task 1):
 
@@ -106,6 +133,6 @@ uv run uvicorn app.main:app --reload --host 127.0.0.1 --port 8000  # after Task 
 
 After each task, the agent **must stop** and wait for:
 
-- ✅ Approved — proceed to next task  
-- 🔄 Changes requested — fix, update roadmap, re-submit for review  
-- ⏸️ Pause — stop until user returns
+- ✅ **Approved** — push to `origin main`, then start next task  
+- 🔄 **Changes requested** — fix, commit, update roadmap, re-submit for review (no push)  
+- ⏸️ **Pause** — stop until user returns
