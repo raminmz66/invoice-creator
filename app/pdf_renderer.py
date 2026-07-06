@@ -25,6 +25,13 @@ def format_eur(value: float) -> str:
     return f"{value:,.2f}"
 
 
+def format_eur_invoice(value: float) -> str:
+    """Format EUR amounts for invoice lines like '1500' or '1 500.50'."""
+    if value == int(value):
+        return str(int(value))
+    return f"{value:,.2f}".replace(",", " ")
+
+
 def render_invoice_html(draft: InvoiceDraft) -> str:
     """Render invoice HTML for preview or PDF generation."""
     env = Environment(
@@ -33,6 +40,7 @@ def render_invoice_html(draft: InvoiceDraft) -> str:
     )
     env.filters["format_date"] = format_date
     env.filters["format_eur"] = format_eur
+    env.filters["format_eur_invoice"] = format_eur_invoice
     template = env.get_template("invoice_pdf.html")
     return template.render(draft=draft)
 
