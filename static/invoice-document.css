@@ -43,15 +43,15 @@ body {
 
 .invoice-document {
   box-sizing: border-box;
-  position: relative;
+  display: flex;
+  flex-direction: column;
   width: 210mm;
   min-height: 297mm;
-  padding: 72pt 72pt 200pt;
+  padding: 72pt;
   background: var(--paper);
   color: var(--ink);
   font-family: Nunito, Arial, "Liberation Sans", Helvetica, sans-serif;
   font-size: 11pt;
-  overflow: hidden;
 }
 
 .invoice-no {
@@ -170,11 +170,12 @@ table.items tr.items-total td.amount {
 
 .invoice-signature {
   position: absolute;
-  right: 0;
-  bottom: -10pt;
-  width: 95pt;
+  right: 8pt;
+  bottom: 2pt;
+  width: 100pt;
   height: auto;
   pointer-events: none;
+  z-index: 1;
 }
 
 .wallet {
@@ -192,19 +193,11 @@ table.items tr.items-total td.amount {
   line-height: 1.15;
 }
 
-.vacation-block {
-  line-height: 1.15;
-}
-
-.vacation-line {
-  margin: 0;
-  padding: 0;
-}
-
 .vacation-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 0.2em;
+  margin: 0.2em 0 0;
+  table-layout: fixed;
 }
 
 .vacation-table td {
@@ -214,8 +207,7 @@ table.items tr.items-total td.amount {
 }
 
 .vacation-table td:first-child {
-  width: 58%;
-  padding-right: 1em;
+  width: 62%;
 }
 
 .vacation-table td:last-child {
@@ -223,11 +215,11 @@ table.items tr.items-total td.amount {
 }
 
 .invoice-footer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
+  margin-top: auto;
+  margin-left: -72pt;
+  margin-right: -72pt;
+  margin-bottom: -72pt;
+  width: calc(100% + 144pt);
   line-height: 0;
 }
 

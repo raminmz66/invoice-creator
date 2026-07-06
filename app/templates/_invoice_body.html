@@ -60,13 +60,26 @@
 
 {% macro invoice_vacation(draft, live_vacation=false) %}
 <div class="section-title">Vacations (and Off days):</div>
-<div class="vacation-block">
-  <p class="vacation-line">Total used this year:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    {% if live_vacation %}<span id="vacation-used">{{ draft.vacation_used }}</span>{% else %}{{ draft.vacation_used }}{% endif %}
-    days</p>
-  <p class="vacation-line">Carried over last year(s):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ draft.vacation_carried_over }} days</p>
-  <p class="vacation-line">Remaining:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ draft.vacation_remaining }} days</p>
-</div>
+<table class="vacation-table">
+  <tr>
+    <td>Total used this year:</td>
+    <td>
+      {% if live_vacation %}<span id="vacation-used">{{ draft.vacation_used }}</span>{% else %}{{ draft.vacation_used }}{% endif %}
+      days
+    </td>
+  </tr>
+  <tr>
+    <td>Carried over last year(s):</td>
+    <td>{{ draft.vacation_carried_over }} days</td>
+  </tr>
+  <tr>
+    <td>Remaining:</td>
+    <td>
+      {% if live_vacation %}<span id="vacation-remaining">{{ draft.vacation_remaining }}</span>{% else %}{{ draft.vacation_remaining }}{% endif %}
+      days
+    </td>
+  </tr>
+</table>
 {% endmacro %}
 
 {% macro invoice_footer() %}
