@@ -25,8 +25,8 @@ def format_eur(value: float) -> str:
     return f"{value:,.2f}"
 
 
-def render_invoice_pdf(draft: InvoiceDraft) -> bytes:
-    """Render an invoice draft to PDF bytes."""
+def render_invoice_html(draft: InvoiceDraft) -> str:
+    """Render invoice HTML for preview or PDF generation."""
     env = Environment(
         loader=FileSystemLoader(TEMPLATE_DIR),
         autoescape=select_autoescape(["html"]),
@@ -34,7 +34,12 @@ def render_invoice_pdf(draft: InvoiceDraft) -> bytes:
     env.filters["format_date"] = format_date
     env.filters["format_eur"] = format_eur
     template = env.get_template("invoice_pdf.html")
-    html = template.render(draft=draft)
+    return template.render(draft=draft)
+
+
+def render_invoice_pdf(draft: InvoiceDraft) -> bytes:
+    """Render an invoice draft to PDF bytes."""
+    html = render_invoice_html(draft)
     buffer = BytesIO()
     HTML(string=html, base_url=str(PROJECT_ROOT)).write_pdf(buffer)
     return buffer.getvalue()

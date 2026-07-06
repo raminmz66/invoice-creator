@@ -68,6 +68,7 @@ def test_settings_get_renders_form(client):
     response = client.get("/settings")
     assert response.status_code == 200
     assert "Invoice details" in response.text
+    assert "chrome-card" in response.text
     assert "/static/settings.js" in response.text
 
 
@@ -170,6 +171,9 @@ def test_generate_with_settings_renders_paper_preview(client, seeded_data):
     response = client.get("/generate?month=2026-07")
     assert response.status_code == 200
     assert "invoice-document" in response.text
+    assert "parties-table" in response.text
+    assert "invoice-editor" in response.text
+    assert "chrome-input" in response.text
     assert "2334975" in response.text
     assert "/static/generate.js" in response.text
 

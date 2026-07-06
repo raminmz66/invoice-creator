@@ -4,7 +4,7 @@
 
 {% block content %}
 {% if not settings_ready %}
-<section class="empty-state card-narrow">
+<section class="empty-state chrome-card chrome-card-narrow">
   <h1>Set up your invoice details first.</h1>
   <p><a class="btn btn-primary" href="/settings">Go to Settings</a></p>
 </section>
@@ -12,11 +12,11 @@
 <form id="generate-form" class="generate-layout" method="post" action="/generate">
   <div class="month-selector">
     <label for="month">Invoice for:</label>
-    <input id="month" name="month" type="month" value="{{ month_value }}" required>
+    <input id="month" class="chrome-input" name="month" type="month" value="{{ month_value }}" required>
   </div>
 
   {% if show_year_rollover %}
-  <div class="year-banner" role="status">
+  <div class="year-banner chrome-card" role="status">
     <p class="year-banner-title"><strong>New year detected.</strong> Confirm vacation reset before generating.</p>
     <div class="year-banner-actions">
       <label class="year-banner-check">
@@ -25,7 +25,7 @@
       </label>
       <label class="year-banner-field">
         Carried over:
-        <input type="number" min="0" name="rollover_carried_over" value="{{ rollover_carried_over }}">
+        <input class="chrome-input chrome-input-compact" type="number" min="0" name="rollover_carried_over" value="{{ rollover_carried_over }}">
         days
       </label>
       <button type="submit" name="action" value="apply_rollover" class="btn btn-outline btn-small">Apply</button>
@@ -41,65 +41,84 @@
   </div>
   {% endif %}
 
-  <div class="invoice-document paper-card">
-    <div class="invoice-no">No. {{ draft.invoice_number }}</div>
-    <h1 class="invoice-title">Invoice</h1>
-    <div class="invoice-date">Date: {{ draft.invoice_date | format_date }}</div>
+  <div class="paper-card">
+    <div class="invoice-document">
+      <div class="invoice-no">No. {{ draft.invoice_number }}</div>
+      <div class="invoice-title">Invoice</div>
+      <div class="invoice-date">Date: {{ draft.invoice_date | format_date }}</div>
 
-    <div class="parties">
-      <div class="party">
-        <div class="party-label">Billed to:</div>
-        <div class="party-line">{{ draft.billed_to.name }}</div>
-        <div class="party-line">{{ draft.billed_to.company }}</div>
-        <div class="party-line">{{ draft.billed_to.location }}</div>
-      </div>
-      <div class="party">
-        <div class="party-label">From:</div>
-        <div class="party-line">{{ draft.from_party.name }}</div>
-        <div class="party-line">{{ draft.from_party.email }}</div>
-        <div class="party-line">{{ draft.from_party.location }}</div>
-      </div>
-    </div>
-
-    <table class="items">
-      <thead>
+      <table class="parties-table">
         <tr>
-          <th>Description</th>
-          <th>Amount</th>
+          <td class="party-label">Billed to:</td>
+          <td class="party-label">From:</td>
         </tr>
-      </thead>
-      <tbody>
         <tr>
-          <td>Professional services — {{ draft.month_label }}</td>
-          <td class="amount">€{{ draft.amount_eur | format_eur }}</td>
+          <td class="party-line">{{ draft.billed_to.name }}</td>
+          <td class="party-line">{{ draft.from_party.name }}</td>
         </tr>
-      </tbody>
-    </table>
+        <tr>
+          <td class="party-line">{{ draft.billed_to.company }}</td>
+          <td class="party-line">{{ draft.from_party.email }}</td>
+        </tr>
+        <tr>
+          <td class="party-line">{{ draft.billed_to.location }}</td>
+          <td class="party-line">{{ draft.from_party.location }}</td>
+        </tr>
+      </table>
 
-    <div class="wallet">
-      <strong>Wallet ID (USDT TRC20):</strong><br>
-      {{ draft.usdt_wallet }}
-    </div>
+      <table class="items">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Professional services — {{ draft.month_label }}</td>
+            <td class="amount">€{{ draft.amount_eur | format_eur }}</td>
+          </tr>
+        </tbody>
+      </table>
 
-    <div class="section-title">Off days this month</div>
-    <div id="off-day-list" class="off-day-list">
-      {% for off_day in off_days %}
-      <div class="off-day-chip" data-date="{{ off_day.isoformat() }}">
-        <span>{{ off_day | format_date }}</span>
-        <button type="button" class="chip-remove" aria-label="Remove {{ off_day | format_date }}">×</button>
-        <input type="hidden" name="off_days" value="{{ off_day.isoformat() }}">
+      <div class="wallet">
+        <span class="wallet-label">Wallet ID (USDT TRC20):</span><br>
+        {{ draft.usdt_wallet }}
       </div>
-      {% endfor %}
-    </div>
-    <div class="off-day-actions">
-      <input id="off-day-picker" type="date" aria-label="Add off day">
-      <button type="button" id="add-off-day" class="btn btn-outline btn-small">+ Add day</button>
-    </div>
 
-    <div class="section-title">Vacations (and Off days):</div>
-    <div class="vacation-line">Total used this year: <span id="vacation-used">{{ draft.vacation_used }}</span> days</div>
-    <div class="vacation-line">Carried over last year(s): {{ draft.vacation_carried_over }} days</div>
-    <div class="vacation-line">Remaining: <span id="vacation-remaining">{{ draft.vacation_remaining }}</span> days</div>
+      <div class="invoice-editor">
+        <div class="section-title">Off days this month</div>
+        <div id="off-day-list" class="off-day-list">
+          {% for off_day in off_days %}
+          <div class="off-day-chip" data-date="{{ off_day.isoformat() }}">
+            <span>{{ off_day | format_date }}</span>
+            <button type="button" class="chip-remove" aria-label="Remove {{ off_day | format_date }}">×</button>
+            <input type="hidden" name="off_days" value="{{ off_day.isoformat() }}">
+          </div>
+          {% endfor %}
+        </div>
+        <div class="off-day-actions">
+          <input id="off-day-picker" class="chrome-input chrome-input-compact" type="date" aria-label="Add off day">
+          <button type="button" id="add-off-day" class="btn btn-outline btn-small">+ Add day</button>
+        </div>
+      </div>
+
+      <div class="section-title">Vacations (and Off days):</div>
+      <table class="vacation-table">
+        <tr>
+          <td>Total used this year:</td>
+          <td><span id="vacation-used">{{ draft.vacation_used }}</span> days</td>
+        </tr>
+        <tr>
+          <td>Carried over last year(s):</td>
+          <td>{{ draft.vacation_carried_over }} days</td>
+        </tr>
+        <tr>
+          <td>Remaining:</td>
+          <td><span id="vacation-remaining">{{ draft.vacation_remaining }}</span> days</td>
+        </tr>
+      </table>
+    </div>
   </div>
 
   <div class="action-row">

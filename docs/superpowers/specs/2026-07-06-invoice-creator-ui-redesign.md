@@ -1,7 +1,7 @@
 # Invoice Creator — UI Redesign Spec
 
 **Date:** 2026-07-06  
-**Status:** Pending user review  
+**Status:** Implemented — pending user review  
 **Supersedes (partial):** `2026-07-04-invoice-creator-ui-design.md` — invoice document tokens and typography; app chrome direction  
 **Parent spec:** `2026-07-04-invoice-creator-design.md` (behavior unchanged)
 
