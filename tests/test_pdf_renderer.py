@@ -3,8 +3,35 @@
 from datetime import date
 from pathlib import Path
 
+import pytest
+
 from app.models import InvoiceDraft, PartyInfo
-from app.pdf_renderer import format_date, format_eur, render_invoice_html, render_invoice_pdf
+from app.pdf_renderer import format_date, format_eur, format_eur_invoice, render_invoice_html, render_invoice_pdf
+
+
+@pytest.fixture
+def sample_draft():
+    return InvoiceDraft(
+        invoice_number=2334974,
+        invoice_date=date(2026, 6, 30),
+        amount_eur=1500,
+        usdt_wallet="TCEvAY15PUDMrb5uu35F1EhG21u2RYHtoS",
+        from_party=PartyInfo(
+            name="Ramin Maazallahi",
+            email="r.mazallahi-ext@initiative-crm.com",
+            location="Mashad, Iran",
+        ),
+        billed_to=PartyInfo(
+            name="Boris Clement",
+            company="Initiative solutions",
+            location="Valreas, France",
+        ),
+        off_days=[],
+        vacation_used=6,
+        vacation_carried_over=7,
+        vacation_remaining=31,
+        month_label="June 2026",
+    )
 
 
 def test_format_date():
@@ -16,51 +43,45 @@ def test_format_eur():
     assert format_eur(5000) == "5,000.00"
 
 
-def test_render_pdf_produces_bytes():
-    draft = InvoiceDraft(
-        invoice_number=2334975,
-        invoice_date=date(2026, 7, 31),
-        amount_eur=5000,
-        usdt_wallet="TTestWallet",
-        from_party=PartyInfo(name="Ramin", email="r@x.com", location="Mashad"),
-        billed_to=PartyInfo(name="Boris", company="Initiative", location="France"),
-        off_days=[date(2026, 7, 3)],
-        vacation_used=7,
-        vacation_carried_over=7,
-        vacation_remaining=31,
-        month_label="July 2026",
-    )
-    pdf = render_invoice_pdf(draft)
-    assert pdf[:4] == b"%PDF"
-    assert len(pdf) > 1000
+def test_format_eur_invoice():
+    assert format_eur_invoice(1500) == "1500"
+    assert format_eur_invoice(5000) == "5000"
+    assert format_eur_invoice(1500.5) == "1 500.50"
 
 
-def test_invoice_document_css_is_doc_faithful():
+def test_invoice_document_css_uses_reference_tokens():
     css = (Path(__file__).resolve().parent.parent / "static" / "invoice-document.css").read_text(encoding="utf-8")
     lowered = css.lower()
     assert "googleapis" not in lowered
     assert "cormorant" not in lowered
-    assert "#ffffff" in lowered or "#fff" in lowered
+    assert "#96ee71" in lowered
+    assert "#e9c119" in lowered
+    assert "oswald" in lowered
+    assert "nunito" in lowered
+    assert "@font-face" in lowered
 
 
-def test_pdf_html_excludes_chrome_classes():
-    draft = InvoiceDraft(
-        invoice_number=2334975,
-        invoice_date=date(2026, 7, 31),
-        amount_eur=5000,
-        usdt_wallet="TTestWallet",
-        from_party=PartyInfo(name="Ramin", email="r@x.com", location="Mashad"),
-        billed_to=PartyInfo(name="Boris", company="Initiative", location="France"),
-        off_days=[date(2026, 7, 3)],
-        vacation_used=7,
-        vacation_carried_over=7,
-        vacation_remaining=31,
-        month_label="July 2026",
-    )
-    html = render_invoice_html(draft)
+def test_pdf_html_uses_reference_assets(sample_draft):
+    html = render_invoice_html(sample_draft)
+    assert "static/invoice/image1.png" in html
+    assert "static/invoice/image2.png" in html
+    assert "static/invoice/image3.png" in html
+    assert "invoice-signature.svg" not in html
+    assert "footer-waves" not in html
     assert "off-day-chip" not in html
     assert "chrome-input" not in html
-    assert "chrome-card" not in html
-    assert "btn-primary" not in html
-    assert "parties-table" in html
-    assert "vacation-table" in html
+    assert "Payment for June 2026" in html
+    assert "€ 1500" in html
+
+
+def test_pdf_html_has_four_column_items_table(sample_draft):
+    html = render_invoice_html(sample_draft)
+    assert 'class="items"' in html
+    assert "items-total" in html
+    assert html.count("<td") >= 8
+
+
+def test_render_pdf_produces_bytes(sample_draft):
+    pdf = render_invoice_pdf(sample_draft)
+    assert pdf[:4] == b"%PDF"
+    assert len(pdf) > 5000
