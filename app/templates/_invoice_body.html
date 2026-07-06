@@ -1,0 +1,84 @@
+{% macro invoice_top(draft) %}
+<p class="invoice-no">No. {{ draft.invoice_number }}</p>
+<p class="invoice-title">Invoice</p>
+<p class="invoice-date"><span class="label-bold">Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ draft.invoice_date | format_date }}</p>
+
+<table class="parties-table">
+  <tr>
+    <td class="party-label">Billed to:</td>
+    <td class="party-label">From:</td>
+  </tr>
+  <tr>
+    <td class="party-line">{{ draft.billed_to.name }}</td>
+    <td class="party-line">{{ draft.from_party.name }}</td>
+  </tr>
+  <tr>
+    <td class="party-line">{{ draft.billed_to.company }}</td>
+    <td class="party-line">{{ draft.from_party.email }}</td>
+  </tr>
+  <tr>
+    <td class="party-line">{{ draft.billed_to.location }}</td>
+    <td class="party-line">{{ draft.from_party.location }}</td>
+  </tr>
+</table>
+
+<div class="items-wrap">
+  <table class="items">
+    <tr class="items-header">
+      <td class="col-item" colspan="2">Item</td>
+      <td class="col-spacer"></td>
+      <td class="col-amount">Amount</td>
+    </tr>
+    <tr class="items-data">
+      <td class="col-item" colspan="2">Payment for {{ draft.month_label }}</td>
+      <td class="col-spacer"></td>
+      <td class="col-amount">€ {{ draft.amount_eur | format_eur_invoice }}</td>
+    </tr>
+    <tr class="items-total">
+      <td class="col-item" colspan="2"></td>
+      <td class="col-total-label total-label">Total</td>
+      <td class="col-amount">€ {{ draft.amount_eur | format_eur_invoice }}</td>
+    </tr>
+  </table>
+  <img class="invoice-signature" src="static/invoice/image3.png" alt="">
+</div>
+
+<div class="wallet">
+  <span class="wallet-label">Wallet ID (USDT TRC20):</span><br>
+  {{ draft.usdt_wallet }}
+</div>
+{% endmacro %}
+
+{% macro invoice_off_days(off_days) %}
+{% if off_days %}
+<div class="section-title">Off days this month:</div>
+{% for off_day in off_days %}
+<div class="off-day">{{ off_day | format_date }}</div>
+{% endfor %}
+{% endif %}
+{% endmacro %}
+
+{% macro invoice_vacation(draft, live_vacation=false) %}
+<div class="section-title">Vacations (and Off days):</div>
+<div class="vacation-block">
+  <p class="vacation-line">Total used this year:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    {% if live_vacation %}<span id="vacation-used">{{ draft.vacation_used }}</span>{% else %}{{ draft.vacation_used }}{% endif %}
+    days</p>
+  <p class="vacation-line">Carried over last year(s):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ draft.vacation_carried_over }} days</p>
+  <p class="vacation-line">Remaining:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ draft.vacation_remaining }} days</p>
+</div>
+{% endmacro %}
+
+{% macro invoice_footer() %}
+<div class="invoice-footer" aria-hidden="true">
+  <img class="footer-wave" src="static/invoice/image1.png" alt="">
+  <img class="footer-wave" src="static/invoice/image2.png" alt="">
+</div>
+{% endmacro %}
+
+{% macro invoice_body(draft, off_days=none) %}
+{{ invoice_top(draft) }}
+{{ invoice_off_days(off_days) }}
+{{ invoice_vacation(draft) }}
+{{ invoice_footer() }}
+{% endmacro %}
