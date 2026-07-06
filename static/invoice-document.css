@@ -1,8 +1,30 @@
+@font-face {
+  font-family: "Oswald";
+  src: url("fonts/Oswald-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("fonts/Nunito-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("fonts/Nunito-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
 :root {
   --paper: #ffffff;
   --ink: #000000;
-  --ink-muted: #666666;
-  --rule: #cccccc;
+  --invoice-green: #96ee71;
+  --invoice-gold: #e9c119;
+  --invoice-navy: #0d2b2e;
 }
 
 @page {
@@ -11,9 +33,9 @@
 }
 
 body {
-  font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
+  font-family: Nunito, Arial, "Liberation Sans", Helvetica, sans-serif;
   font-size: 11pt;
-  line-height: 1.4;
+  line-height: 1.15;
   color: var(--ink);
   background: var(--paper);
   margin: 0;
@@ -21,115 +43,196 @@ body {
 
 .invoice-document {
   box-sizing: border-box;
+  position: relative;
   width: 210mm;
   min-height: 297mm;
-  padding: 2.5cm;
+  padding: 72pt 72pt 200pt;
   background: var(--paper);
   color: var(--ink);
-  font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
+  font-family: Nunito, Arial, "Liberation Sans", Helvetica, sans-serif;
   font-size: 11pt;
-}
-
-.invoice-no,
-.invoice-title,
-.invoice-date,
-.party-line,
-.wallet,
-.section-title,
-.vacation-line,
-.off-day {
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: 400;
+  overflow: hidden;
 }
 
 .invoice-no {
-  margin: 0 0 0.25em;
+  margin: 0 0 0.5em;
+  text-align: right;
+  font-size: 12pt;
+  font-weight: 700;
+  font-family: Nunito, Arial, sans-serif;
 }
 
 .invoice-title {
-  margin: 0 0 0.25em;
-  font-size: 11pt;
-  font-weight: 400;
+  margin: 0 0 0.15em;
+  font-family: Oswald, Arial, sans-serif;
+  font-size: 48pt;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .invoice-date {
-  margin: 0 0 1.5em;
+  margin: 0 0 1em;
+  font-size: 11pt;
+  line-height: 1.15;
 }
 
-.parties-table,
-.items,
-.vacation-table {
-  width: 100%;
-  border-collapse: collapse;
+.label-bold,
+.party-label,
+.wallet-label,
+.section-title,
+.total-label {
+  font-weight: 700;
 }
 
 .parties-table {
+  width: 100%;
+  border-collapse: collapse;
   margin: 0 0 1.5em;
+  table-layout: fixed;
 }
 
 .parties-table td {
   width: 50%;
   vertical-align: top;
-  padding: 0 1.5em 0 0;
+  padding: 0;
+  line-height: 1.15;
 }
 
-.parties-table .party-label {
-  margin: 0 0 0.35em;
+.party-label {
+  padding-bottom: 0.25em;
 }
 
 .party-line {
-  margin: 0.15em 0;
+  margin: 0;
+  padding: 0;
+  line-height: 1.15;
+}
+
+.items-wrap {
+  position: relative;
+  margin: 0 0 1.5em;
 }
 
 table.items {
-  margin: 1em 0 1.5em;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
 }
 
-table.items th,
-table.items td {
-  border: 1px solid var(--rule);
-  padding: 6px 8px;
-  text-align: left;
+table.items td,
+table.items th {
+  padding: 5pt;
+  vertical-align: top;
+  line-height: 1;
+  border: none;
+}
+
+table.items tr.items-header td,
+table.items thead th {
+  background: var(--invoice-green);
   font-weight: 400;
+  border-bottom: 0;
 }
 
-table.items td.amount {
+table.items tr.items-data td,
+table.items tr.items-total td,
+table.items tbody tr td {
+  border-top: 1pt solid var(--invoice-gold);
+  border-bottom: 1pt solid var(--invoice-gold);
+}
+
+table.items td.col-item {
+  width: 59%;
+}
+
+table.items td.col-spacer {
+  width: 12%;
+}
+
+table.items td.col-total-label {
+  width: 14%;
+}
+
+table.items td.col-amount,
+table.items td.amount,
+table.items th:last-child {
+  width: 15%;
   text-align: right;
   white-space: nowrap;
 }
 
-.wallet {
-  margin: 1.5em 0;
-}
-
-.wallet-label {
+table.items tr.items-total td.col-total-label,
+table.items tr.items-total td.col-amount,
+table.items tr.items-total td.total-label,
+table.items tr.items-total td.amount {
   font-weight: 700;
 }
 
+.invoice-signature {
+  position: absolute;
+  right: 0;
+  bottom: -10pt;
+  width: 95pt;
+  height: auto;
+  pointer-events: none;
+}
+
+.wallet {
+  margin: 0 0 1.25em;
+  line-height: 1.15;
+}
+
 .section-title {
-  font-weight: 400;
-  margin: 1.25em 0 0.35em;
+  margin: 1em 0 0.35em;
+  font-size: 12pt;
 }
 
 .off-day {
-  margin: 0.15em 0 0.15em 1.5em;
+  margin: 0.1em 0 0.1em 1.25em;
+  line-height: 1.15;
+}
+
+.vacation-block {
+  line-height: 1.15;
+}
+
+.vacation-line {
+  margin: 0;
+  padding: 0;
 }
 
 .vacation-table {
-  margin-top: 0.35em;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.2em;
 }
 
 .vacation-table td {
-  padding: 0.1em 0;
+  padding: 0.12em 0;
   vertical-align: top;
+  line-height: 1.15;
 }
 
 .vacation-table td:first-child {
-  width: 55%;
+  width: 58%;
   padding-right: 1em;
 }
 
 .vacation-table td:last-child {
   white-space: nowrap;
+}
+
+.invoice-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  line-height: 0;
+}
+
+.footer-wave {
+  display: block;
+  width: 100%;
+  height: auto;
 }
