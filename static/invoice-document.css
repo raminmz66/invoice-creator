@@ -28,7 +28,7 @@
 }
 
 @page {
-  size: A4;
+  size: letter;
   margin: 0;
 }
 
@@ -43,11 +43,11 @@ body {
 
 .invoice-document {
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  width: 210mm;
-  min-height: 297mm;
-  padding: 72pt;
+  position: relative;
+  overflow: hidden;
+  width: 8.5in;
+  min-height: 11in;
+  padding: 60pt 72pt 190pt;
   background: var(--paper);
   color: var(--ink);
   font-family: Nunito, Arial, "Liberation Sans", Helvetica, sans-serif;

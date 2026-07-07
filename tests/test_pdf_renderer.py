@@ -85,3 +85,18 @@ def test_render_pdf_produces_bytes(sample_draft):
     pdf = render_invoice_pdf(sample_draft)
     assert pdf[:4] == b"%PDF"
     assert len(pdf) > 5000
+
+
+def test_pdf_is_single_letter_page(sample_draft):
+    from weasyprint import HTML
+
+    from app.pdf_renderer import PROJECT_ROOT, render_invoice_html
+
+    doc = HTML(
+        string=render_invoice_html(sample_draft),
+        base_url=str(PROJECT_ROOT),
+    ).render()
+    assert len(doc.pages) == 1
+    # US Letter = 8.5in x 11in = 816px x 1056px at 96 CSS dpi
+    assert round(doc.pages[0].width) == 816
+    assert round(doc.pages[0].height) == 1056
