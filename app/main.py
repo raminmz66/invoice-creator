@@ -21,7 +21,7 @@ from app.invoice_service import (
     validate_generate,
 )
 from app.models import AppState, GenerateForm, PartyInfo, Settings, VacationState
-from app.pdf_renderer import format_date, format_eur, format_eur_invoice, render_invoice_pdf
+from app.pdf_renderer import format_date, format_date_short, format_eur, format_eur_invoice, render_invoice_pdf
 from app.storage import load_settings, load_state, save_settings, save_state
 
 logger = logging.getLogger(__name__)
@@ -34,6 +34,7 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 templates = Jinja2Templates(directory=str(TEMPLATE_DIR))
 templates.env.filters["format_date"] = format_date
+templates.env.filters["format_date_short"] = format_date_short
 templates.env.filters["format_eur"] = format_eur
 templates.env.filters["format_eur_invoice"] = format_eur_invoice
 

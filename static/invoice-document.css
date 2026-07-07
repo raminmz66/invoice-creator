@@ -198,9 +198,16 @@ table.items tr.items-total td.amount {
   font-size: 12pt;
 }
 
+.off-day-list {
+  margin: 0.15em 0 0.5em;
+  line-height: 1.4;
+}
+
 .off-day {
-  margin: 0.1em 0 0.1em 1.25em;
-  line-height: 1.15;
+  display: inline;
+  margin: 0;
+  padding: 0;
+  line-height: inherit;
 }
 
 .vacation-table {

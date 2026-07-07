@@ -51,10 +51,14 @@
 
 {% macro invoice_off_days(off_days) %}
 {% if off_days %}
-<div class="section-title">Off days this month:</div>
-{% for off_day in off_days %}
-<div class="off-day">{{ off_day | format_date }}</div>
-{% endfor %}
+<div class="off-days">
+  <div class="section-title">Off days this month:</div>
+  <p class="off-day-list">
+    {%- for off_day in off_days -%}
+    <span class="off-day">{{ off_day | format_date_short }}</span>{% if not loop.last %}, {% endif %}
+    {%- endfor -%}
+  </p>
+</div>
 {% endif %}
 {% endmacro %}
 

@@ -39,7 +39,6 @@ function formatDisplayDate(isoDate) {
   return date.toLocaleDateString("en-GB", {
     day: "numeric",
     month: "long",
-    year: "numeric",
   });
 }
 

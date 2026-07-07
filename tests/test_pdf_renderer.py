@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from app.models import InvoiceDraft, PartyInfo
-from app.pdf_renderer import format_date, format_eur, format_eur_invoice, render_invoice_html, render_invoice_pdf
+from app.pdf_renderer import format_date, format_date_short, format_eur, format_eur_invoice, render_invoice_html, render_invoice_pdf
 
 
 @pytest.fixture
@@ -37,6 +37,21 @@ def sample_draft():
 def test_format_date():
     assert format_date(date(2026, 7, 31)) == "31 July, 2026"
     assert format_date(date(2026, 7, 3)) == "3 July, 2026"
+
+
+def test_format_date_short():
+    assert format_date_short(date(2026, 7, 31)) == "31 July"
+    assert format_date_short(date(2026, 7, 3)) == "3 July"
+
+
+def test_pdf_html_renders_compact_off_days(sample_draft):
+    sample_draft.off_days = [date(2026, 7, 1), date(2026, 7, 8)]
+    html = render_invoice_html(sample_draft)
+    assert 'class="off-day-list"' in html
+    assert '<span class="off-day">1 July</span>' in html
+    assert '<span class="off-day">8 July</span>' in html
+    off_days_section = html.split("Off days this month")[1].split("Vacations")[0]
+    assert "2026" not in off_days_section
 
 
 def test_format_eur():

@@ -52,8 +52,8 @@
         <div id="off-day-list" class="off-day-list">
           {% for off_day in off_days %}
           <div class="off-day-chip" data-date="{{ off_day.isoformat() }}">
-            <span>{{ off_day | format_date }}</span>
-            <button type="button" class="chip-remove" aria-label="Remove {{ off_day | format_date }}">×</button>
+            <span>{{ off_day | format_date_short }}</span>
+            <button type="button" class="chip-remove" aria-label="Remove {{ off_day | format_date_short }}">×</button>
             <input type="hidden" name="off_days" value="{{ off_day.isoformat() }}">
           </div>
           {% endfor %}
