@@ -46,12 +46,18 @@ body {
   position: relative;
   overflow: hidden;
   width: 8.5in;
+  height: 11in;
   min-height: 11in;
-  padding: 60pt 72pt 190pt;
+  padding: 60pt 72pt 72pt;
   background: var(--paper);
   color: var(--ink);
   font-family: Nunito, Arial, "Liberation Sans", Helvetica, sans-serif;
   font-size: 11pt;
+}
+
+.invoice-document > *:not(.invoice-footer) {
+  position: relative;
+  z-index: 5;
 }
 
 .invoice-no {
@@ -171,11 +177,11 @@ table.items tr.items-total td.amount {
 .invoice-signature {
   position: absolute;
   right: 0;
-  bottom: -18pt;
-  width: 130pt;
+  bottom: -12pt;
+  width: 120pt;
   height: auto;
   pointer-events: none;
-  z-index: 3;
+  z-index: 6;
 }
 
 .wallet {
@@ -196,7 +202,7 @@ table.items tr.items-total td.amount {
 .vacation-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 0.2em 0 0;
+  margin: 0.2em 0 2.5em;
   table-layout: fixed;
 }
 
@@ -216,6 +222,19 @@ table.items tr.items-total td.amount {
 
 .invoice-footer {
   position: static;
+  z-index: 0;
+}
+
+.invoice-footer::before {
+  content: "";
+  position: absolute;
+  left: -72pt;
+  right: -72pt;
+  bottom: 0;
+  width: calc(100% + 144pt);
+  height: 72pt;
+  background: var(--invoice-navy);
+  z-index: 0;
 }
 
 .footer-wave {
@@ -224,8 +243,9 @@ table.items tr.items-total td.amount {
   right: -72pt;
   bottom: 0;
   width: calc(100% + 144pt);
-  height: auto;
+  height: 58mm;
   display: block;
+  object-fit: fill;
 }
 
 .footer-wave-navy {
