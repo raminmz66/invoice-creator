@@ -215,20 +215,23 @@ table.items tr.items-total td.amount {
 }
 
 .invoice-footer {
-  margin-top: auto;
-  margin-left: -72pt;
-  margin-right: -72pt;
-  margin-bottom: -72pt;
-  width: calc(100% + 144pt);
-  line-height: 0;
+  position: static;
 }
 
 .footer-wave {
-  display: block;
-  width: 100%;
+  position: absolute;
+  left: -72pt;
+  right: -72pt;
+  bottom: 0;
+  width: calc(100% + 144pt);
   height: auto;
+  display: block;
 }
 
 .footer-wave-navy {
-  margin-top: -52mm;
+  z-index: 1;
+}
+
+.footer-wave-green {
+  z-index: 2;
 }
