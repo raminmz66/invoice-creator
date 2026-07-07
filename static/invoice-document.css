@@ -170,12 +170,12 @@ table.items tr.items-total td.amount {
 
 .invoice-signature {
   position: absolute;
-  right: -8pt;
-  bottom: -22pt;
-  width: 200pt;
+  right: 0;
+  bottom: -18pt;
+  width: 130pt;
   height: auto;
   pointer-events: none;
-  z-index: 1;
+  z-index: 3;
 }
 
 .wallet {
