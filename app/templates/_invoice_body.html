@@ -1,7 +1,7 @@
 {% macro invoice_top(draft) %}
 <p class="invoice-no">No. {{ draft.invoice_number }}</p>
 <p class="invoice-title">Invoice</p>
-<p class="invoice-date"><span class="label-bold">Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ draft.invoice_date | format_date }}</p>
+<p class="invoice-date"><span class="label-bold">Date:</span>&nbsp;&nbsp;{{ draft.invoice_date | format_date }}</p>
 
 <table class="parties-table">
   <tr>

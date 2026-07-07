@@ -41,6 +41,10 @@ body {
   margin: 0;
 }
 
+body * {
+   line-height: 1.5 !important;
+}
+
 .invoice-document {
   box-sizing: border-box;
   position: relative;
@@ -177,8 +181,8 @@ table.items tr.items-total td.amount {
 .invoice-signature {
   position: absolute;
   right: 0;
-  bottom: -6pt;
-  width: 100pt;
+  bottom: -50pt;
+  width: 200pt;
   height: auto;
   pointer-events: none;
   z-index: 6;
@@ -213,7 +217,7 @@ table.items tr.items-total td.amount {
 }
 
 .vacation-table td:first-child {
-  width: 62%;
+  width: 40%;
 }
 
 .vacation-table td:last-child {
@@ -230,7 +234,7 @@ table.items tr.items-total td.amount {
   position: absolute;
   left: -72pt;
   right: -72pt;
-  bottom: 0;
+  bottom: -10pt;
   width: calc(100% + 144pt);
   height: 72pt;
   background: var(--invoice-navy);
@@ -241,7 +245,7 @@ table.items tr.items-total td.amount {
   position: absolute;
   left: -72pt;
   right: -72pt;
-  bottom: 0;
+  bottom: -10pt;
   width: calc(100% + 144pt);
   height: 58mm;
   display: block;
