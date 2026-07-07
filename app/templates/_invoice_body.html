@@ -40,7 +40,7 @@
       <td class="col-amount">€ {{ draft.amount_eur | format_eur_invoice }}</td>
     </tr>
   </table>
-  <img class="invoice-signature" src="static/invoice/image3.png" alt="">
+  <img class="invoice-signature" src="static/invoice/signature.png" alt="">
 </div>
 
 <div class="wallet">
@@ -84,8 +84,8 @@
 
 {% macro invoice_footer() %}
 <div class="invoice-footer" aria-hidden="true">
-  <img class="footer-wave" src="static/invoice/image1.png" alt="">
-  <img class="footer-wave" src="static/invoice/image2.png" alt="">
+  <img class="footer-wave footer-wave-green" src="static/invoice/footer-green.png" alt="">
+  <img class="footer-wave footer-wave-navy" src="static/invoice/footer-navy.png" alt="">
 </div>
 {% endmacro %}
 

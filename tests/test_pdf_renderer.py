@@ -63,9 +63,9 @@ def test_invoice_document_css_uses_reference_tokens():
 
 def test_pdf_html_uses_reference_assets(sample_draft):
     html = render_invoice_html(sample_draft)
-    assert "static/invoice/image1.png" in html
-    assert "static/invoice/image2.png" in html
-    assert "static/invoice/image3.png" in html
+    assert "static/invoice/footer-green.png" in html
+    assert "static/invoice/footer-navy.png" in html
+    assert "static/invoice/signature.png" in html
     assert "invoice-signature.svg" not in html
     assert "footer-waves" not in html
     assert "off-day-chip" not in html
