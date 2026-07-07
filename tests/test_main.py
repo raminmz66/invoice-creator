@@ -172,6 +172,9 @@ def test_generate_with_settings_renders_paper_preview(client, seeded_data):
     assert response.status_code == 200
     assert "invoice-document" in response.text
     assert "parties-table" in response.text
+    assert "items-header" in response.text
+    assert "Payment for July 2026" in response.text
+    assert "Professional services" not in response.text
     assert "invoice-editor" in response.text
     assert "chrome-input" in response.text
     assert "2334975" in response.text

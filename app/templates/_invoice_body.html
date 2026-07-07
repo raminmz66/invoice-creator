@@ -1,4 +1,4 @@
-{% macro invoice_top(draft) %}
+{% macro invoice_top(draft, static_prefix='static/') %}
 <p class="invoice-no">No. {{ draft.invoice_number }}</p>
 <p class="invoice-title">Invoice</p>
 <p class="invoice-date"><span class="label-bold">Date:</span>&nbsp;&nbsp;{{ draft.invoice_date | format_date }}</p>
@@ -40,7 +40,7 @@
       <td class="col-amount">€ {{ draft.amount_eur | format_eur_invoice }}</td>
     </tr>
   </table>
-  <img class="invoice-signature" src="static/invoice/image3.png" alt="">
+  <img class="invoice-signature" src="{{ static_prefix }}invoice/image3.png" alt="">
 </div>
 
 <div class="wallet">
@@ -82,16 +82,16 @@
 </table>
 {% endmacro %}
 
-{% macro invoice_footer() %}
+{% macro invoice_footer(static_prefix='static/') %}
 <div class="invoice-footer" aria-hidden="true">
-  <img class="footer-wave footer-wave-navy" src="static/invoice/footer-navy.png" alt="">
-  <img class="footer-wave footer-wave-green" src="static/invoice/footer-green.png" alt="">
+  <img class="footer-wave footer-wave-navy" src="{{ static_prefix }}invoice/footer-navy.png" alt="">
+  <img class="footer-wave footer-wave-green" src="{{ static_prefix }}invoice/footer-green.png" alt="">
 </div>
 {% endmacro %}
 
-{% macro invoice_body(draft, off_days=none) %}
-{{ invoice_top(draft) }}
+{% macro invoice_body(draft, off_days=none, static_prefix='static/') %}
+{{ invoice_top(draft, static_prefix) }}
 {{ invoice_off_days(off_days) }}
 {{ invoice_vacation(draft) }}
-{{ invoice_footer() }}
+{{ invoice_footer(static_prefix) }}
 {% endmacro %}
