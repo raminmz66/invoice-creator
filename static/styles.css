@@ -225,6 +225,66 @@ a:hover {
   margin: 0.75rem 0;
 }
 
+.off-day-calendar {
+  margin: 0.75rem 0;
+}
+
+.off-day-calendar-grid {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.off-day-calendar-row {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.off-day-calendar-header {
+  margin-bottom: 0.15rem;
+}
+
+.off-day-calendar-head {
+  text-align: center;
+  font-family: "Source Sans 3", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--chrome-ink-muted);
+  text-transform: uppercase;
+}
+
+.off-day-calendar-pad {
+  min-height: 2rem;
+}
+
+.off-day-calendar-day {
+  min-height: 2rem;
+  border: 2px solid var(--chrome-border);
+  border-radius: var(--chrome-radius);
+  background: var(--chrome-input-bg);
+  box-shadow: 2px 2px var(--chrome-border);
+  color: var(--chrome-ink);
+  font-family: "Source Sans 3", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.off-day-calendar-day:hover {
+  background: #fff;
+}
+
+.off-day-calendar-day.is-selected {
+  background: var(--chrome-accent, #96ee71);
+  color: var(--chrome-ink);
+}
+
+.off-day-calendar-day:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px var(--chrome-border);
+}
+
 .off-day-chip {
   display: inline-flex;
   align-items: center;
@@ -252,13 +312,6 @@ a:hover {
 
 .chip-remove:active {
   transform: translate(1px, 1px);
-}
-
-.off-day-actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  margin-bottom: 0.5rem;
 }
 
 .inline-errors {
