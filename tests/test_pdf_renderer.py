@@ -59,6 +59,8 @@ def test_invoice_document_css_uses_reference_tokens():
     assert "oswald" in lowered
     assert "nunito" in lowered
     assert "@font-face" in lowered
+    assert "size: letter" in lowered
+    assert "8.5in" in lowered
 
 
 def test_pdf_html_uses_reference_assets(sample_draft):
