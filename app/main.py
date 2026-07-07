@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from datetime import date
 from pathlib import Path
 
@@ -22,6 +23,8 @@ from app.invoice_service import (
 from app.models import AppState, GenerateForm, PartyInfo, Settings, VacationState
 from app.pdf_renderer import format_date, format_eur, format_eur_invoice, render_invoice_pdf
 from app.storage import load_settings, load_state, save_settings, save_state
+
+logger = logging.getLogger(__name__)
 
 TEMPLATE_DIR = Path(__file__).resolve().parent / "templates"
 STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
@@ -292,6 +295,7 @@ async def generate_post(request: Request) -> Response:
     try:
         pdf_bytes = render_invoice_pdf(draft)
     except Exception:
+        logger.exception("PDF generation failed for invoice %s", draft.invoice_number)
         return templates.TemplateResponse(
             request,
             "generate.html",
