@@ -4,21 +4,29 @@ Local web app for generating monthly PDF invoices with automatic invoice-number 
 
 ## Prerequisites
 
-- **Python 3.11+**
-- **[uv](https://docs.astral.sh/uv/)** package manager
-- **WeasyPrint system libraries** (Ubuntu):
+Only the WeasyPrint system libraries have to be installed by hand — they are the
+one dependency that needs `apt` (Ubuntu):
 
 ```bash
-sudo apt install libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev libcairo2
+sudo apt install libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b libfontconfig1 libglib2.0-0
 ```
+
+[uv](https://docs.astral.sh/uv/) and Python 3.11+ are **not** prerequisites: the
+launcher installs uv if it is missing and `uv` then fetches a managed
+interpreter, so the app runs even when your system Python is older.
 
 ## Install
 
 ```bash
 git clone git@github.com:raminmz66/invoice-creator.git
 cd invoice-creator
-uv sync --extra dev
+./scripts/bootstrap.sh
 ```
+
+`bootstrap.sh` installs uv, a suitable Python and the locked dependencies. You can
+skip it — the app launcher runs the same bootstrap on every start, so a fresh
+clone works straight from the applications menu. Add `uv sync --extra dev` if you
+want the dev tools (pytest, ruff).
 
 ## Ubuntu app launcher
 
@@ -30,8 +38,12 @@ Install a desktop entry so you can launch from the applications menu:
 
 Click **Invoice Creator** in the app menu. The launcher:
 
-1. Starts the FastAPI server if it is not already running
-2. Opens your default browser to the app
+1. Installs uv, Python and the locked dependencies if any are missing
+2. Starts the FastAPI server if it is not already running
+3. Opens your default browser to the app
+
+Setup runs silently, so its output is appended to `.server.log`; failures also
+raise a desktop notification telling you what to do.
 
 If port 8000 is already in use by another app, the launcher automatically picks the next free port (8001–8010). The active port is stored in `.server.port`.
 

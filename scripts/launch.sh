@@ -79,11 +79,16 @@ if running_port="$(find_running_port)"; then
   exit 0
 fi
 
-UV="$(command -v uv || true)"
-if [[ -z "$UV" ]]; then
-  notify_error "uv not found. Install uv and run: uv sync"
+# Install uv, the interpreter and the locked dependencies if they are missing.
+# Sourced rather than exec'd so the launcher inherits the PATH uv is installed on.
+# shellcheck source=bootstrap.sh
+source "$ROOT/scripts/bootstrap.sh"
+
+if ! bootstrap; then
   exit 1
 fi
+
+UV="$(command -v uv)"
 
 if ! PORT="$(find_free_port)"; then
   notify_error "No free port between ${DEFAULT_PORT} and ${MAX_PORT}."
