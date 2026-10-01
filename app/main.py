@@ -100,6 +100,7 @@ async def settings_post(request: Request) -> HTMLResponse:
     settings = Settings(
         invoice_amount_eur=invoice_amount_eur,
         usdt_wallet=str(form.get("usdt_wallet", "")).strip(),
+        wallet_label=str(form.get("wallet_label", "")).strip() or "USDT TRC20",
         from_party=PartyInfo(
             name=str(form.get("from_name", "")).strip(),
             email=str(form.get("from_email", "")).strip(),
@@ -220,7 +221,13 @@ async def generate_post(request: Request) -> Response:
     year, month_num = _parse_month_value(month_value)
     off_days = _parse_off_days([str(value) for value in form.getlist("off_days")])
     action = str(form.get("action", "download"))
-    generate_form = GenerateForm(year=year, month=month_num, off_days=off_days)
+    generate_form = GenerateForm(
+        year=year,
+        month=month_num,
+        off_days=off_days,
+        wallet_label=str(form.get("wallet_label", "")),
+        wallet_address=str(form.get("wallet_address", "")),
+    )
     show_year_rollover = bool(state and state.year != year)
     rollover_carried_over = int(
         form.get("rollover_carried_over", state.vacation.remaining if state and show_year_rollover else 0)

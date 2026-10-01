@@ -1,4 +1,4 @@
-{% macro invoice_top(draft, static_prefix='static/') %}
+{% macro invoice_top(draft, static_prefix='static/', editable_wallet=false) %}
 <p class="invoice-no">No. {{ draft.invoice_number }}</p>
 <p class="invoice-title">Invoice</p>
 <p class="invoice-date"><span class="label-bold">Date:</span>&nbsp;&nbsp;{{ draft.invoice_date | format_date }}</p>
@@ -44,8 +44,13 @@
 </div>
 
 <div class="wallet">
-  <span class="wallet-label">Wallet ID (USDT TRC20):</span><br>
+  {% if editable_wallet %}
+  <span class="wallet-label">Wallet ID (<input class="chrome-input chrome-input-compact" type="text" name="wallet_label" value="{{ draft.wallet_label }}" aria-label="Wallet coin / network" required>):</span><br>
+  <input class="chrome-input mono wallet-address-input" type="text" name="wallet_address" value="{{ draft.usdt_wallet }}" aria-label="Wallet address" required>
+  {% else %}
+  <span class="wallet-label">Wallet ID ({{ draft.wallet_label }}):</span><br>
   {{ draft.usdt_wallet }}
+  {% endif %}
 </div>
 {% endmacro %}
 

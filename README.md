@@ -60,7 +60,7 @@ Open [http://127.0.0.1:8000](http://127.0.0.1:8000).
 1. Open **Settings** (`/settings`)
 2. Fill in:
    - Monthly amount (EUR)
-   - USDT wallet (TRC20)
+   - Default wallet: coin / network (e.g. USDT TRC20) and address — editable per invoice on the Generate page
    - Your details (From): name, email, location
    - Client (Billed to): name, company, location
    - Vacation tracking: annual entitlement, carried-over days, used this year, last invoice number

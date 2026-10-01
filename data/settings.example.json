@@ -1,6 +1,7 @@
 {
   "invoice_amount_eur": 5000,
   "usdt_wallet": "",
+  "wallet_label": "USDT TRC20",
   "from": {
     "name": "Ramin Maazallahi",
     "email": "r.mazallahi-ext@initiative-crm.com",

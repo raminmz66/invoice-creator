@@ -30,7 +30,12 @@
         </div>
       </label>
       <label class="field">
-        <span>USDT wallet (TRC20)</span>
+        <span>Default wallet coin / network</span>
+        <input class="chrome-input" type="text" name="wallet_label" required
+               value="{{ settings.wallet_label if settings else 'USDT TRC20' }}">
+      </label>
+      <label class="field">
+        <span>Default wallet address</span>
         <input class="chrome-input mono" type="text" name="usdt_wallet" required
                value="{{ settings.usdt_wallet if settings else '' }}">
       </label>

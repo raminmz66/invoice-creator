@@ -22,7 +22,8 @@ class Settings(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     invoice_amount_eur: float = Field(ge=0, description="Fixed monthly invoice amount in EUR")
-    usdt_wallet: str = Field(default="", description="USDT TRC20 wallet address for payment")
+    usdt_wallet: str = Field(default="", description="Default wallet address for payment")
+    wallet_label: str = Field(default="USDT TRC20", description="Default wallet coin/network label")
     from_party: PartyInfo = Field(default_factory=PartyInfo, alias="from")
     billed_to: PartyInfo = Field(default_factory=PartyInfo)
     annual_vacation_entitlement: int = Field(ge=0, default=31)
@@ -61,6 +62,7 @@ class InvoiceDraft(BaseModel):
     invoice_date: date
     amount_eur: float = Field(ge=0)
     usdt_wallet: str
+    wallet_label: str = "USDT TRC20"
     from_party: PartyInfo
     billed_to: PartyInfo
     off_days: list[date] = Field(default_factory=list)
@@ -76,3 +78,5 @@ class GenerateForm(BaseModel):
     year: int = Field(ge=2000, le=2100)
     month: int = Field(ge=1, le=12)
     off_days: list[date] = Field(default_factory=list)
+    wallet_label: str = ""
+    wallet_address: str = ""

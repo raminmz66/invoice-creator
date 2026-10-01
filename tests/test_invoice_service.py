@@ -152,3 +152,14 @@ def test_pdf_filename():
         month_label="July 2026",
     )
     assert pdf_filename(draft) == "Invoice-2334975-July-2026.pdf"
+
+
+def test_build_draft_wallet_override_and_fallback():
+    settings = Settings(invoice_amount_eur=5000, usdt_wallet="TDefault", wallet_label="USDT TRC20")
+    state = AppState(last_invoice_number=1, year=2026)
+    default = build_draft(settings, state, GenerateForm(year=2026, month=7))
+    assert (default.wallet_label, default.usdt_wallet) == ("USDT TRC20", "TDefault")
+
+    form = GenerateForm(year=2026, month=7, wallet_label=" BTC ", wallet_address=" bc1qxyz ")
+    override = build_draft(settings, state, form)
+    assert (override.wallet_label, override.usdt_wallet) == ("BTC", "bc1qxyz")

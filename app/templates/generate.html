@@ -44,7 +44,7 @@
   <div class="paper-card">
     <div class="invoice-document">
       {% from "_invoice_body.html" import invoice_top, invoice_vacation %}
-      {{ invoice_top(draft, '/static/') }}
+      {{ invoice_top(draft, '/static/', editable_wallet=true) }}
 
       <div class="invoice-editor">
         <div class="section-title">Off days this month</div>
